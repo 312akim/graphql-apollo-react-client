@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import { LOAD_USERS } from '../GraphQL/Queries';
+import { useInView } from 'react-intersection-observer';
 
 
 function GetUsers(props) {
@@ -9,7 +10,6 @@ function GetUsers(props) {
 
     useEffect(() => {
         if (data) {
-            console.log(data.getAllUsers);
             setUsers(data.getAllUsers);
         }
     }, [data]);
@@ -17,12 +17,26 @@ function GetUsers(props) {
     return (
         <div>
             {
-                users.map((user) => {
-                    return <h1>{user.first_name}</h1>
+                users.map((user, i) => {
+                    return <DisplayUser user={user} key={'user' + i}/>
                 })
             }
         </div>
     );
+}
+
+const DisplayUser = ({user}) => {
+    const {ref, inView} = useInView({
+        threshold: 0
+    });
+
+    return (
+        <div ref={ref} style={{padding: '5px', height: '35px'}}>
+            {
+                inView ? <h1>{user.first_name}</h1> : ''
+            }
+        </div>
+    )
 }
 
 export default GetUsers;
