@@ -5,7 +5,9 @@ import { useInView } from 'react-intersection-observer';
 
 
 function GetUsers(props) {
-    const {error, loading, data} = useQuery(LOAD_USERS);
+    const {error, loading, data} = useQuery(LOAD_USERS, {
+        pollInterval: 2000
+    });
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -15,7 +17,7 @@ function GetUsers(props) {
     }, [data]);
 
     return (
-        <div>
+        <div style={styles.container}>
             {
                 users.map((user, i) => {
                     return <DisplayUser user={user} key={'user' + i}/>
@@ -37,6 +39,14 @@ const DisplayUser = ({user}) => {
             }
         </div>
     )
+}
+
+const styles = {
+    container: {
+        height: '500px',
+        overflowY: 'scroll',
+        border: '2px solid black',
+    }
 }
 
 export default GetUsers;

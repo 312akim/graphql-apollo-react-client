@@ -2,6 +2,7 @@ import '../styles/App.css';
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import GetUsers from './GetUsers';
+import Form from './Form';
 
 // Graphql Error handler
 const errorLink = onError(({graphqlErrors, networkErrors}) => {
@@ -28,9 +29,7 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <header>
-        Test Page
-      </header>
+      <Form />
       <GetUsers />
     </ApolloProvider>
   );
